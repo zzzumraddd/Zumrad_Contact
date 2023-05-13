@@ -5,12 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.example.contacts_zumrad.Adapter.Contact
 import com.example.contacts_zumrad.Adapter.ContactAdapter
 import com.example.contacts_zumrad.OtherStuff.DBHelper
 import com.example.contacts_zumrad.databinding.FragmentContactsBinding
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 private const val ARG_PARAM1 = "param1"
@@ -29,6 +32,7 @@ class FragmentContacts : Fragment() {
         }
     }
     var contacts = mutableListOf<Contact>()
+    lateinit var adapter: ContactAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,7 +47,7 @@ class FragmentContacts : Fragment() {
             binding.box.visibility = View.VISIBLE
         }
         else{
-            var adapter = ContactAdapter(contacts, object : ContactAdapter.ContactInterface{
+          adapter = ContactAdapter(contacts, object : ContactAdapter.ContactInterface{
                 override fun onClick(contact: Contact) {
                     val bundle = bundleOf()
                     bundle.putSerializable("contact",contact)
@@ -51,6 +55,7 @@ class FragmentContacts : Fragment() {
                 }
 
             })
+
             binding.contactRv.adapter = adapter
         }
 
@@ -58,17 +63,36 @@ class FragmentContacts : Fragment() {
             findNavController().navigate(R.id.action_fragmentContacts_to_addContactFragment)
         }
 
-        binding.toolbar.setOnMenuItemClickListener {
-            when(it.itemId){
-                R.id.search ->{
-                    var filter = mutableListOf<Contact>()
-
-                }
+        binding.searchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
             }
-            true
-        }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterList(newText, adapter)
+                return true
+            }
+
+        })
+
 
         return binding.root
+    }
+    private fun filterList(query: String?, adapter: ContactAdapter){
+        if(query != null){
+            val filteredList = ArrayList<Contact>()
+            for(i in contacts){
+                if(i.name.toLowerCase(Locale.ROOT).contains(query)){
+                    filteredList.add(i)
+                }
+            }
+            if(filteredList.isEmpty()){
+
+            }else{
+                adapter.FilteredList(filteredList)
+            }
+        }
     }
 
     companion object {

@@ -7,26 +7,29 @@
     tools:context=".FragmentContacts">
 
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/searchcard"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
+        android:layout_height="50dp"
+        app:cardCornerRadius="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/menu">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Contacts"
-            android:textColor="#000000"
-            android:textSize="24sp" />
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
-    </androidx.appcompat.widget.Toolbar>
+            app:defaultQueryHint="search"
+            app:iconifiedByDefault="false"
+            app:layout_constraintBottom_toTopOf="@+id/rv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:queryBackground="@android:color/transparent"
+            app:queryHint="search" />
+
+    </androidx.cardview.widget.CardView>
 
     <ImageView
         android:id="@+id/box"
