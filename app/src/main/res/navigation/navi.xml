@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_viewFragment_to_fragmentContacts"
             app:destination="@id/fragmentContacts" />
+        <action
+            android:id="@+id/action_viewFragment_to_addContactFragment"
+            app:destination="@id/addContactFragment" />
     </fragment>
     <fragment
         android:id="@+id/addContactFragment"

@@ -1,14 +1,17 @@
 package com.example.contacts_zumrad
 
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.contacts_zumrad.Adapter.Contact
 import com.example.contacts_zumrad.OtherStuff.DBHelper
 import com.example.contacts_zumrad.databinding.FragmentViewBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
 private const val ARG_PARAM1 = "param1"
@@ -38,15 +41,32 @@ class ViewFragment : Fragment() {
         binding.phone.text = contact.phone
 
         binding.delete.setOnClickListener {
-//            var myDialog = Dialog()
-//            var manager = parentFragmentManager
-//            myDialog.show(manager,"myDialog")
-            db.deleteContact(contact)
-            findNavController().navigate(R.id.action_viewFragment_to_fragmentContacts)
+            MaterialAlertDialogBuilder(requireContext()).setTitle("Dear User").setMessage("Do you want to delete contact?").setPositiveButton("Yes"
+            ) { p0, p1 ->
+                db.deleteContact(contact)
+                findNavController().navigate(R.id.action_viewFragment_to_fragmentContacts)
+            }
+                .setNegativeButton("Cancel", object : DialogInterface.OnClickListener {
+                    override fun onClick(p0: DialogInterface?, p1: Int) {
+                        Toast.makeText(requireContext(), "Cancel", Toast.LENGTH_SHORT).show()
+                    }
+                })
+                .show()
+
         }
 
         binding.edit.setOnClickListener {
-
+            MaterialAlertDialogBuilder(requireContext()).setTitle("Dear User").setMessage("Do you want to edit contact?").setPositiveButton("Edit"
+            ) { p0, p1 ->
+                db.deleteContact(contact)
+                findNavController().navigate(R.id.action_viewFragment_to_addContactFragment)
+            }
+                .setNegativeButton("Cancel", object : DialogInterface.OnClickListener {
+                    override fun onClick(p0: DialogInterface?, p1: Int) {
+                        Toast.makeText(requireContext(), "Cancel", Toast.LENGTH_SHORT).show()
+                    }
+                })
+                .show()
         }
 
 
