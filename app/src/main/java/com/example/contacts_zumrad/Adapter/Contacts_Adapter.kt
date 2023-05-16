@@ -34,6 +34,9 @@ class ContactAdapter(var list:MutableList<Contact>, var contInterface: ContactIn
         holder.contactlayout.setOnClickListener {
             contInterface.onClick(item)
         }
+        holder.phone.setOnClickListener {
+
+        }
     }
 
     override fun getItemCount(): Int {
