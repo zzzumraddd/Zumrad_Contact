@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.example.contacts_zumrad.Adapter.Contact
@@ -47,14 +48,15 @@ class FragmentContacts : Fragment() {
             binding.box.visibility = View.VISIBLE
         }
         else{
-          adapter = ContactAdapter(contacts, object : ContactAdapter.ContactInterface{
+            val activity = activity as AppCompatActivity
+          adapter = ContactAdapter(contacts, activity, object : ContactAdapter.ContactInterface{
                 override fun onClick(contact: Contact) {
                     val bundle = bundleOf()
                     bundle.putSerializable("contact",contact)
                     findNavController().navigate(R.id.action_fragmentContacts_to_viewFragment,bundle)
                 }
 
-            })
+            }, requireContext())
 
             binding.contactRv.adapter = adapter
         }
